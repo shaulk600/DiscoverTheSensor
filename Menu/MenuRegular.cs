@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using DiscoverTheSensor.Agent;
 using DiscoverTheSensor.Sensors;
 using DiscoverTheSensor.Sensors.BuilderSensors;
@@ -69,23 +70,24 @@ namespace DiscoverTheSensor.Menu
 
 
 
-        public void CreateSensorsForGame()
+        public List<RegularSensors> CreateSensorsForGame()
         {
             RegularSensors = new List<RegularSensors>();
             RegularSensors.Add(CreateSensoreForGameByOne());
             RegularSensors.Add(CreateSensoreForGameByOne());
-
-
+            return RegularSensors;
         }
         private RegularSensors CreateSensoreForGameByOne()
         {
             RegularSensors a = BuilderSensor.RandomObj();
             return a;
+            
             //זה יופעל אם אני רוצה אובייקט ספציפי
             //string name = "Sensore_" + Convert.ToString(ValueOfVariableObj); // return : 'Sensore__1'.
             //MenuRegular.ValueOfVariableObj++;
             //RegularSensors a = new RegularSensors(name, "Selolar", 300);
         }
+
         public void DisplayingPossibleSensorsForAttack()
         {
             for(int i = 0; i < JuniorAgents.Count; i++)
