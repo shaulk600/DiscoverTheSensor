@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,6 +73,32 @@ namespace DiscoverTheSensor.Agent
             else
             {
                 Console.WriteLine($"decided: {points} - from {SensorsToSurrender.Length} - try again");
+            }            
+        }
+
+        //הצגת הסנסורים הקיימים - זה אמור להיות מוסתר - לצורך טסט נציג אותם
+        private void IntroducingTheSensorsSubmissionTest()
+        {
+            for (int i = 0; i < SensorsToSurrender.Length; i++)
+            {
+                Console.WriteLine($" {i} : Name: {SensorsToSurrender[i].Name} ,BelongsToType: {SensorsToSurrender[i].BelongsToType} ");
+            }
+        }
+        
+        //הצגת הסנסורים הקיימים כעת בשורת התקיפה 
+        public void IntroducingTheSensorsForAttack()
+        {
+            Console.WriteLine("Introducing The Sensors For Attack : ");
+            for (int i =0; i < SensorsToAttack.Length; i++)
+            {
+                if (SensorsToAttack[i].IsItWithBreakLimit()) // אם הסנסור הוא בר שבירה-החזר את כמות השבירות
+                {
+                    Console.WriteLine($" {i} :  name: {SensorsToAttack[i].Name}, BelongsToType: {SensorsToAttack[i].BelongsToType}, NumberOfSessions: {SensorsToAttack[i].NumberOfSessions}");
+                }
+                else
+                {
+                    Console.WriteLine($" {i} :  name: {SensorsToAttack[i].Name}, BelongsToType: {SensorsToAttack[i].BelongsToType}");
+                }
             }
         }
     }
