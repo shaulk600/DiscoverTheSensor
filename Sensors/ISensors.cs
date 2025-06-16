@@ -9,11 +9,12 @@ namespace DiscoverTheSensor.Sensors
 {
     internal interface ISensors
     {
+       
         void Activate();
         bool IsItWithBreakLimit(); //האם הוא עם הגבלת שבירות
 
-        void InsertRandomSensorsIntoAnObject(); // להביא סנסורים אל האובייקטים של agent
+        void InsertRandomSensorsIntoAnObject(); // להביא סנסורים אל האובייקטים של agent באופן רנדומלי
 
-
+        
     }
 }

@@ -17,6 +17,9 @@ namespace DiscoverTheSensor.Agent
         public abstract RegularSensors[] SensorsToAttack { get; set; } //איזה סנסורי תקיפה יש עליו
         
         public abstract RegularSensors[] SensorsToSurrender { get; set; } // איזה סנסורי תקיפה יגרום להכנעה
+
+        public abstract void RandomalAndCopyValueToSensorsToSurrender(); //מתודה שאמורה להחזיר ערכים רנדומליים אל האובייקט וליצור עותק שישאר בצד להשוואה
+
         public abstract void ReturnOfSuccessfulAttack();
      
 
