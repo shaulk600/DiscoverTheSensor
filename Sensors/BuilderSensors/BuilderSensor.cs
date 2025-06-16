@@ -10,9 +10,14 @@ namespace DiscoverTheSensor.Sensors.BuilderSensors
     {
         public static void CreateOBJ()
         {
-            RegularSensors objA = new RegularSensors("selolarA", "selolar", 300);+
+            //string input;
+            //Console.WriteLine("Enter Your Name Sensore");
+            //input = Console.ReadLine();
+            //RegularSensors objA = new RegularSensors(input, "selolar", 300);
         }
 
+        
+        //להפעלת המשחק נצטרך להכניס שתיים רנדומליים
         public static RegularSensors RandomObj()
         {
             RegularSensors[] regularsSensors = new RegularSensors[5];
@@ -29,8 +34,11 @@ namespace DiscoverTheSensor.Sensors.BuilderSensors
             System.Random rnd = new System.Random();
 
             // המהלך הבא יוצר רנדום
-            return regularsSensors[ rnd.Next(1, 5) ];
+            return regularsSensors[ Convert.ToInt32(rnd.Next(1, 4)) ];
              
+
+
+
         }
     }
 }
