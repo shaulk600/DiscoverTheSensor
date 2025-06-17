@@ -6,34 +6,37 @@ using System.Threading.Tasks;
 
 namespace DiscoverTheSensor.Sensors.BuilderSensors
 {
-    internal static class BuilderRegularSensor
+    internal class BuilderRegularSensor
     {
-        private static List<RegularSensors> RegularSensors; // אובייקט של סנסורים שקיים בכל אובייקט של סוכן
-        
+        private List<RegularSensors> ListRegularSensors; // אובייקט של סנסורים שקיים בכל אובייקט של סוכן
+        private int NumberRegularSensor = 0;
 
-        //מתודה למימוש רנדומליות
-        public static RegularSensors ReturnSensorsRandomaly()
+        public BuilderRegularSensor()
         {
-            // יצירת מערך ליסט
-            List <RegularSensors>  Randomal = new List<RegularSensors>();
+            CreateRegularSensors();
+        }
+        
+        //יצירת אובייקטים של סנסורים רגילים
+        public void CreateRegularSensors()
+        {
+            string name = "RegularSensors_" + Convert.ToString(NumberRegularSensor);
 
-            RegularSensors objA = new RegularSensors("selolarA", "selolar", 300);
-            RegularSensors objB = new RegularSensors("selolarB", "selolar", 300);
-
-            //הכנסה לליסט 
-            Randomal.Add(objA);
-            Randomal.Add(objB);
-            Randomal.Add(objA);
-            Randomal.Add(objB);
-            Randomal.Add(objA);
-            Randomal.Add(objB);
-
-
+            for (int i = 0; i < 5; i++)
+            {
+                ListRegularSensors.Add(new RegularSensors(name, "selolar", 300));
+                NumberRegularSensor++;
+            }
+        }
+        //מתודה למימוש רנדומליות
+        public RegularSensors ReturnSensorsRandomaly()
+        {
             //יצירת אובייקט רנדום
             System.Random rnd = new System.Random();
 
-            // המהלך הבא יוצר רנדום
-            return Randomal[ Convert.ToInt32(rnd.Next(1, 5)) ];   
+            // המהלך הבא יוצר רנדום על האובייקטים
+            return ListRegularSensors[ Convert.ToInt32(rnd.Next(1, 5)) ];
         }
+
+        
     }
 }
