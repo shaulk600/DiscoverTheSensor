@@ -9,7 +9,7 @@ using DiscoverTheSensor.Agent;
 using DiscoverTheSensor.Sensors.BuilderSensors;
 namespace DiscoverTheSensor.Sensors
 {
-    internal class RegularSensors :ISensors
+    internal class RegularSensors : ISensors
     {
         public int IdSensors {  get; set; } //ID
         public string Name { get; set; } // שם
@@ -26,41 +26,40 @@ namespace DiscoverTheSensor.Sensors
         }
         public RegularSensors(string name, string belongsToType, int numberOfSessions)
         {
-            
             Name = name;
             BelongsToType = belongsToType;
             NumberOfSessions = numberOfSessions;
         }
-
-       public virtual void SetBelongsToType(string value)
+        //מתודת הוספה בוולידציה אל BelongsToType
+        public virtual void SetBelongsToType(string value)
         {
             if (string.IsNullOrEmpty(value) || value == "Selolar")
             {
                 BelongsToType = "Selolar";
             }
-            //else if(value == "" || value == "")
-            //{
-
-            //}
         }
 
-        public virtual void Activate(JuniorAgent a)
+        public virtual bool Activate(JuniorAgent a)
         {
-            //מה הוא באמת יחזיר 
-            int points;
-            points = MethodByActivate(a);
-
+            int points = 0;
+            //פור - כמספר האובייקטים בתוך a.SensorsToAttack
+            for (int i = 0; i < a.SensorsToAttack.Length; i++)
+            {
+                points += MethodByActivate(a);
+            }
+            return a.ReturnOfSuccessfulAttack(points); // מחזיר ערך bool;
         }
 
         private int MethodByActivate(JuniorAgent a)
         {
             //או ליצור copy ולשאול על זה
             // או לקחת ואז להחזיר
-            for (int i = 0; i < a.SensorsToSurrender.Length; i++)
+            for (int i = 0; i < a.SensorsToSurrenderCopy.Length; i++)
             {
-                if (this.BelongsToType == a.SensorsToSurrenderCopy[i].BelongsToType) //האם הערך שיוצא להתקפה דומה לערך שבכוחו לשבור את הסוכן האוייב - בכל הליסט
+                if ((this.BelongsToType != "" || this.BelongsToType != null) && (this.BelongsToType == a.SensorsToSurrenderCopy[i].BelongsToType) && (this.Name == a.Name)) //האם הערך שיוצא להתקפה דומה לערך שבכוחו לשבור את הסוכן האוייב - בכל הליסט
                 {
                     a.SensorsToSurrenderCopy[i].BelongsToType = "";
+
                     return 1;
                 }               
             }
@@ -71,10 +70,11 @@ namespace DiscoverTheSensor.Sensors
         {
             return false;
         }
-        public virtual void InsertRandomSensorsIntoAnObject()// להביא סנסורים אל האובייקטים של agent
-        {
-            //אולי פה זה סנסור רגיל - לא רנדום - לבדוק אם צריך - אם לא לבטל
-        }
 
+
+        public override string ToString()
+        {
+            return $" id: {IdSensors}, name: {Name}, BelongsToType: {BelongsToType}, NumberOfSessions: {NumberOfSessions}, - IsItWithBreakLimit: {IsItWithBreakLimit()} ";
+        }
     }
 }
