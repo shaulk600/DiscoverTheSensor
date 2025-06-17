@@ -26,25 +26,20 @@ namespace DiscoverTheSensor.Sensors
         }
         public RegularSensors(string name, string belongsToType, int numberOfSessions)
         {
-            
             Name = name;
             BelongsToType = belongsToType;
             NumberOfSessions = numberOfSessions;
         }
-
-       public virtual void SetBelongsToType(string value)
+        //מתודת הוספה בוולידציה אל BelongsToType
+        public virtual void SetBelongsToType(string value)
         {
             if (string.IsNullOrEmpty(value) || value == "Selolar")
             {
                 BelongsToType = "Selolar";
             }
-            //else if(value == "" || value == "")
-            //{
-
-            //}
         }
 
-        public virtual void Activate(JuniorAgent a)
+        public virtual bool Activate(JuniorAgent a)
         {
             int points = 0;
             //פור - כמספר האובייקטים בתוך a.SensorsToAttack
@@ -52,7 +47,7 @@ namespace DiscoverTheSensor.Sensors
             {
                 points += MethodByActivate(a);
             }
-            a.ReturnOfSuccessfulAttack(points);
+            return a.ReturnOfSuccessfulAttack(points); // מחזיר ערך bool;
         }
 
         private int MethodByActivate(JuniorAgent a)
@@ -61,7 +56,7 @@ namespace DiscoverTheSensor.Sensors
             // או לקחת ואז להחזיר
             for (int i = 0; i < a.SensorsToSurrenderCopy.Length; i++)
             {
-                if ((this.BelongsToType != "" || this.BelongsToType != null) && (this.BelongsToType == a.SensorsToSurrenderCopy[i].BelongsToType) &&(this.Name == a.Name)) //האם הערך שיוצא להתקפה דומה לערך שבכוחו לשבור את הסוכן האוייב - בכל הליסט
+                if ((this.BelongsToType != "" || this.BelongsToType != null) && (this.BelongsToType == a.SensorsToSurrenderCopy[i].BelongsToType) && (this.Name == a.Name)) //האם הערך שיוצא להתקפה דומה לערך שבכוחו לשבור את הסוכן האוייב - בכל הליסט
                 {
                     a.SensorsToSurrenderCopy[i].BelongsToType = "";
 
@@ -76,7 +71,10 @@ namespace DiscoverTheSensor.Sensors
             return false;
         }
 
-        
 
+        public override string ToString()
+        {
+            return $" id: {IdSensors}, name: {Name}, BelongsToType: {BelongsToType}, NumberOfSessions: {NumberOfSessions}, - IsItWithBreakLimit: {IsItWithBreakLimit()} ";
+        }
     }
 }

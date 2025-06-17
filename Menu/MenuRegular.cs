@@ -6,21 +6,35 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using DiscoverTheSensor.Agent;
+using DiscoverTheSensor.Agent.BuilderAgents;
 using DiscoverTheSensor.Sensors;
 using DiscoverTheSensor.Sensors.BuilderSensors;
+
 
 namespace DiscoverTheSensor.Menu
 {
     internal class MenuRegular
     {
-        public static int ValueOfVariableObj = 1;
-        //ליסט של הסנסורים בעלי אפשרויות תקיפה
-        List<JuniorAgent> JuniorAgents; // אובייקט של סוכנים - במידה ויש משחק גדול
-        List<RegularSensors> RegularSensors; // אובייקט של סנסורים שקיים בכל אובייקט של סוכן
+        private  readonly BuilderRegularSensor sens;
 
         public MenuRegular()
         {
+            bool ifSeccess = false;
             PrintMainMenu();
+
+            sens = new BuilderRegularSensor.GetInstance();
+            //sens.CreateRegularSensors();
+
+            JuniorAgent iranyAgent = BuilderJuniorAgent.CreateRegularAgent();
+            
+            while (! ifSeccess)
+            {
+                iranyAgent.IntroducingTheSensorsForAttack();
+                RegularSensors SensorToActive = BuilderRegularSensor.SelectingSpecificSensorAndReturningTheSensor(iranyAgent);
+
+                ifSeccess = SensorToActive.Activate(iranyAgent);
+            }
+            Console.WriteLine("finish");
         }
         public  void PrintMainMenu()
         {
@@ -49,52 +63,7 @@ namespace DiscoverTheSensor.Menu
             Thread.Sleep(5000);  
         }
 
-        //המתודות הבאות מייצרות אובייקטים של סוכן ושל סנסורים - לשקול העברה לקלאס נפרד כל אחד
-        public void CreateAgentForGame()
-        {
-            //string name = "NameObject_" + Convert.ToString(_NameObj); // return : 'NameObject_1'
-            JuniorAgents = new List<JuniorAgent>();
-
-            JuniorAgents.Add(CreateAgentForGameByOne());
-            //JuniorAgents.Add(CreateAgentForGameOne());
-            
-        }
-        private JuniorAgent CreateAgentForGameByOne()
-        {
-            //יצירת אובייקט סוכן איראני
-            string name= "Agent_" + Convert.ToString(ValueOfVariableObj); // return : 'Agent_1'.
-            MenuRegular.ValueOfVariableObj++;
-            JuniorAgent a = new JuniorAgent(name, "junior");
-            return a;
-        }
-
-
-
-        public List<RegularSensors> CreateSensorsForGame()
-        {
-            RegularSensors = new List<RegularSensors>();
-            RegularSensors.Add(CreateSensoreForGameByOne());
-            RegularSensors.Add(CreateSensoreForGameByOne());
-            return RegularSensors;
-        }
-        private RegularSensors CreateSensoreForGameByOne()
-        {
-            RegularSensors a = BuilderSensor.RandomObj();
-            return a;
-            
-            //זה יופעל אם אני רוצה אובייקט ספציפי
-            //string name = "Sensore_" + Convert.ToString(ValueOfVariableObj); // return : 'Sensore__1'.
-            //MenuRegular.ValueOfVariableObj++;
-            //RegularSensors a = new RegularSensors(name, "Selolar", 300);
-        }
-
-        public void DisplayingPossibleSensorsForAttack()
-        {
-            for(int i = 0; i < JuniorAgents.Count; i++)
-            {
-                Console.WriteLine($" the {JuniorAgents[i].Name} of the kind of {JuniorAgents[i].AgentRank}"); 
-            }
-        }
+        
 
 
         public  string EnterAValue()

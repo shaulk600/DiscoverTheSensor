@@ -10,7 +10,7 @@ namespace DiscoverTheSensor.Sensors
     internal interface ISensors
     {
        
-        void Activate(JuniorAgent a);
+        bool Activate(JuniorAgent a);
         bool IsItWithBreakLimit(); //האם הוא עם הגבלת שבירות
 
         //void InsertRandomSensorsIntoAnObject(); // להביא סנסורים אל האובייקטים של agent באופן רנדומלי
