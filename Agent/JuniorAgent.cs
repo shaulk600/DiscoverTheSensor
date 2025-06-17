@@ -11,53 +11,63 @@ namespace DiscoverTheSensor.Agent
 {
     internal class JuniorAgent : AbstractAgent
     {
-        public int IdAgent { get; set; }
-        public string Name { get; set; } // שם
-        public string AgentRank { get; set; } // דרגה
+        public override int IdAgent { get; set; }
+        public override string Name { get; set; } // שם
+        public override string AgentRank { get; set; } // דרגה
 
-        public RegularSensors[] SensorsToAttack;  //איזה סנסורי תקיפה יש עליו
+        public override RegularSensors[] SensorsToAttack { get; set; } //איזה סנסורי תקיפה יש עליו
+        public override RegularSensors[] SensorsToSurrender { get; set; } // איזה סנסורי תקיפה יגרום להכנעה
 
-        public RegularSensors[] SensorsToSurrender;  // איזה סנסורי תקיפה יגרום להכנעה - זה צריך להיות רנדומךלי
-        public RegularSensors[] SensorsToSurrenderCopy; // ערך Copy.
+        public RegularSensors[] SensorsToSurrenderCopy { get; set; }// ערך Copy.
+
+
 
         // 2 constractors
         public JuniorAgent(int idAgent, string name, string agentRank) 
         {
             IdAgent = idAgent;
             Name = name;
-            SetAgentRank(agentRank); // כרגע מחזיר תמיד 'זוטר'
-            //אם נקצה לקבל מדאטה יתכן ונעשה פה שינוי
-            
-            //לקבל מהדאטה את הסנסורס
+            SetAgentRank(agentRank); // כרגע מחזיר תמיד 'זוטר' - אם נקצה לקבל מדאטה יתכן ונעשה פה שינוי
             SensorsToAttack = new RegularSensors[2];
             SensorsToSurrender = new RegularSensors[2];
-            SensorsToSurrenderCopy = null;
+            //איך הוא אמור לקבל מהדאטה את הערך של הליסט ?
+            // תשובה מפורטת בדף- אם יש זמן - תבנה
+
+
+            //המתודה שבונה רנדומלי
+            List<RegularSensors> r = new List<RegularSensors>();
+            r.Add(BuilderRegularSensor.ReturnSensorsRandomaly());
+            r.Add(BuilderRegularSensor.ReturnSensorsRandomaly());
+            r.CopyTo(SensorsToSurrender); // הכנסת הערך אל arr
+
+            //יצירת ערך copy
+            r.CopyTo(SensorsToSurrenderCopy); // הכנסת הערך אל arr
+            
         }
         public JuniorAgent (string name, string agentRank)
         {
             Name = name;
             SetAgentRank(agentRank);
-
-            //ליצור אוטומאטית את הסנסורס
             SensorsToAttack = new RegularSensors[2];
             SensorsToSurrender = new RegularSensors[2];
-            SensorsToSurrenderCopy = null;
+
+            //המתודה שבונה רנדומלי
+            List<RegularSensors> r = new List<RegularSensors>();
+            r.Add(BuilderRegularSensor.ReturnSensorsRandomaly());
+            r.Add(BuilderRegularSensor.ReturnSensorsRandomaly());
+            r.CopyTo(SensorsToSurrender); // הכנסת הערך אל arr
+
+            //יצירת ערך copy
+            r.CopyTo(SensorsToSurrenderCopy); // הכנסת הערך אל arr
         }
+
 
         private void SetAgentRank(string value)
         {
             AgentRank = "junior";
         }
-        public override void RandomalAndCopyValueToSensorsToSurrender()
-        {
-            for (int i = 0; i< SensorsToSurrender.Length; i++)
-            {
-                SensorsToSurrender[i] = BuilderSensor.RandomObj();
-            }
-            
-            Array.Copy(SensorsToSurrender, 0, SensorsToSurrenderCopy, 0, SensorsToSurrender.Length); // מתודה שאומרת העתק ממקום באינדקס מסוים - אל מקום - התחל באינדקס-עד איפה שתגיד-לאורך כמה
+       
 
-        }
         public override void ReturnOfSuccessfulAttack(int points) // החזרת ערך התקיפה 
         {
             if (points >= SensorsToSurrender.Length)
