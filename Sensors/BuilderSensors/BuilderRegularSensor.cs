@@ -10,17 +10,9 @@ namespace DiscoverTheSensor.Sensors.BuilderSensors
     {
         private static List<RegularSensors> RegularSensors; // אובייקט של סנסורים שקיים בכל אובייקט של סוכן
         
-        //מתודה היוצרת לי מופע של סנסור רנדומלי
-        public static List<RegularSensors> CreateSensorRandomForJuniorAgent()
-        {
-            //היות שפה צריך 2 בלבד - שלחתי רק 2
-            RegularSensors = new List<RegularSensors>();
-            RegularSensors.Add(ReturnSensorsRandomaly());
-            RegularSensors.Add(ReturnSensorsRandomaly());
-            return RegularSensors;
-        }
-        
-        private static RegularSensors ReturnSensorsRandomaly()
+
+        //מתודה למימוש רנדומליות
+        public static RegularSensors ReturnSensorsRandomaly()
         {
             // יצירת מערך ליסט
             List <RegularSensors>  Randomal = new List<RegularSensors>();
